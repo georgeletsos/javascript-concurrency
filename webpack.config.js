@@ -4,7 +4,7 @@ const autoprefixer = require("autoprefixer");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/main.scss",
+  entry: "./src/scss/main.scss",
 
   output: {
     path: path.resolve(__dirname, "src"),
@@ -35,7 +35,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: "[name].css",
+      filename: "/css/[name].css",
       chunkFilename: "[id].css"
     })
   ]
