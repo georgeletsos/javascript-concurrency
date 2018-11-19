@@ -19,3 +19,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# deployment file
+deploy.sh
+
+# Webpack bundle js
+/src/main.bundle.js
