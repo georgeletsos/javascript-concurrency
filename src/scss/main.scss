@@ -21,8 +21,9 @@ $sidebar-mobile-height: 40px;
     left: 0;
   }
 
-  .nav a {
+  a {
     color: $black-color;
+    text-decoration: none;
 
     &.active {
       font-weight: 500;
@@ -36,10 +37,7 @@ $sidebar-mobile-height: 40px;
 }
 
 .sidebar-mobile {
-  background: $beige-color;
   height: $sidebar-mobile-height;
-  position: fixed;
-  top: 0;
   left: 0;
   z-index: 1031;
 

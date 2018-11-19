@@ -14,19 +14,17 @@
       -webkit-transition: left 0.5s;
       transition: left 0.5s;
       left: 0; } }
-  .sidebar .nav a {
-    color: #000000a6; }
-    .sidebar .nav a.active {
+  .sidebar a {
+    color: #000000a6;
+    text-decoration: none; }
+    .sidebar a.active {
       font-weight: 500;
       color: #000000d9; }
-    .sidebar .nav a:hover {
+    .sidebar a:hover {
       color: #000000d9; }
 
 .sidebar-mobile {
-  background: #f5f2f0;
   height: 40px;
-  position: fixed;
-  top: 0;
   left: 0;
   z-index: 1031; }
   @media (min-width: 992px) {

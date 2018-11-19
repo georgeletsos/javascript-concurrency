@@ -1,4 +1,4 @@
-var sidebar = document.querySelector(".sidebar");
+var sidebar = document.querySelector(".sidebar-main");
 var sidebarHamburger = document.querySelector(".sidebar-mobile .hamburger");
 sidebarHamburger.addEventListener("click", function() {
   sidebar.classList.toggle("show");
