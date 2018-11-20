@@ -1,5 +1,6 @@
 .sidebar {
   background: #f5f2f0;
+  border: none;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -11,6 +12,7 @@
     left: 0; }
   @media (min-width: 992px) {
     .sidebar {
+      border-right: 1px solid #d5d2d0;
       -webkit-transition: left 0.5s;
       transition: left 0.5s;
       left: 0; } }
