@@ -1,3 +1,6 @@
+/*!
+ * Sidebar
+ */
 .sidebar {
   background: #f5f2f0;
   border: none;
@@ -40,11 +43,7 @@
       margin-top: 0; } }
 
 /*!
- * Hamburgers
- * @description Tasty CSS-animated hamburgers
- * @author Jonathan Suh @jonsuh
- * @site https://jonsuh.com/hamburgers
- * @link https://github.com/jonsuh/hamburgers
+ * Hamburger
  */
 .hamburger {
   cursor: pointer;
@@ -133,4 +132,25 @@
     transition: bottom 0.1s ease-out, transform 0.22s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s, -webkit-transform 0.22s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s;
     -webkit-transform: rotate(-90deg);
             transform: rotate(-90deg); }
+
+/*!
+ * Snippets
+ */
+.code {
+  border: none; }
+  @media (min-width: 992px) {
+    .code {
+      border-right: 1px solid #d5d2d0;
+      -webkit-transition: left 0.5s;
+      transition: left 0.5s;
+      left: 0; } }
+
+.result {
+  border: none; }
+  @media (min-width: 992px) {
+    .result {
+      border-left: 1px solid #d5d2d0;
+      -webkit-transition: left 0.5s;
+      transition: left 0.5s;
+      left: 0; } }
 
