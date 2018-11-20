@@ -3,6 +3,9 @@ $black-color-active: #000000d9;
 $beige-color: #f5f2f0;
 $sidebar-mobile-height: 40px;
 
+/*!
+ * Sidebar
+ */
 .sidebar {
   background: $beige-color;
   border: none;
@@ -57,11 +60,7 @@ $sidebar-mobile-height: 40px;
 }
 
 /*!
- * Hamburgers
- * @description Tasty CSS-animated hamburgers
- * @author Jonathan Suh @jonsuh
- * @site https://jonsuh.com/hamburgers
- * @link https://github.com/jonsuh/hamburgers
+ * Hamburger
  */
 .hamburger {
   cursor: pointer;
@@ -157,5 +156,28 @@ $sidebar-mobile-height: 40px;
         transform: rotate(-90deg);
       }
     }
+  }
+}
+
+/*!
+ * Snippets
+ */
+.code {
+  border: none;
+
+  @media (min-width: 992px) {
+    border-right: 1px solid #d5d2d0;
+    transition: left 0.5s;
+    left: 0;
+  }
+}
+
+.result {
+  border: none;
+
+  @media (min-width: 992px) {
+    border-left: 1px solid #d5d2d0;
+    transition: left 0.5s;
+    left: 0;
   }
 }
