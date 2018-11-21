@@ -162,23 +162,16 @@ $sidebar-mobile-height: 40px;
 /*!
  * Snippets
  */
-.code {
-  margin-left: -14px;
-  border: none;
+pre {
+  position: relative;
 
-  @media (min-width: 992px) {
-    border-right: 1px solid #d5d2d0;
-    transition: left 0.5s;
-    left: 0;
+  .code {
+    margin-left: -14px;
   }
-}
 
-.result {
-  border: none;
-
-  @media (min-width: 992px) {
-    border-left: 1px solid #d5d2d0;
-    transition: left 0.5s;
-    left: 0;
+  .run {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
