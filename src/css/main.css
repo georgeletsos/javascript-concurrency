@@ -136,22 +136,12 @@
 /*!
  * Snippets
  */
-.code {
-  margin-left: -14px;
-  border: none; }
-  @media (min-width: 992px) {
-    .code {
-      border-right: 1px solid #d5d2d0;
-      -webkit-transition: left 0.5s;
-      transition: left 0.5s;
-      left: 0; } }
-
-.result {
-  border: none; }
-  @media (min-width: 992px) {
-    .result {
-      border-left: 1px solid #d5d2d0;
-      -webkit-transition: left 0.5s;
-      transition: left 0.5s;
-      left: 0; } }
+pre {
+  position: relative; }
+  pre .code {
+    margin-left: -14px; }
+  pre .run {
+    position: absolute;
+    top: 0;
+    right: 0; }
 
