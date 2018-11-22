@@ -27,14 +27,15 @@
       color: #000000d9; }
     .sidebar a:hover {
       color: #000000d9; }
-
-.sidebar-mobile {
-  height: 40px;
-  left: 0;
-  z-index: 1031; }
-  @media (min-width: 992px) {
-    .sidebar-mobile {
-      display: none; } }
+  .sidebar.sidebar-main {
+    overflow: auto; }
+  .sidebar.sidebar-mobile {
+    height: 40px;
+    left: 0;
+    z-index: 1031; }
+    @media (min-width: 992px) {
+      .sidebar.sidebar-mobile {
+        display: none; } }
 
 .main-content {
   margin-top: 40px; }
