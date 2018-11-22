@@ -160,16 +160,26 @@ $sidebar-mobile-height: 40px;
 }
 
 /*!
+ * Principles tooltips
+ */
+.principle {
+  color: #0645ad;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: help;
+}
+
+/*!
  * Snippets
  */
 pre {
   position: relative;
 
-  .code {
+  .code-block {
     margin-left: -14px;
   }
 
-  .run {
+  .run-code-button {
     position: absolute;
     top: 0;
     right: 0;
