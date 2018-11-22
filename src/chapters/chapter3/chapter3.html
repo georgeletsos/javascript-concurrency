@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../../css/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+
+    <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+
+    <title>Javascript Concurrency</title>
+  </head>
+  <body>
+    <div class="row no-gutters">
+      <div class="col-12 p-2 sidebar sidebar-mobile">
+        <div class="d-flex justify-content-between">
+          <h5 class="m-0">
+            <a href="../../index.html">Javascript Concurrency</a>
+          </h5>
+          <div class="hamburger hamburger--spin">
+            <div class="hamburger-box"><div class="hamburger-inner"></div></div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 p-2 sidebar sidebar-main"
+      >
+        <h5><a href="../../index.html">Javascript Concurrency</a></h5>
+        <ul class="nav flex-column table-of-contents">
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter1/chapter1.html">
+              Chapter 1: Why JavaScript Concurrency?
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter2/chapter2.html">
+              Chapter 2: The JavaScript Execution Model
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active">
+              Chapter 3: Synchronizing with Promises
+            </a>
+            <ul>
+              <li><a href="#promise-terminology">Promise terminology</a></li>
+              <li><a href="#promise">Promise</a></li>
+              <li><a href="#state">State</a></li>
+              <li><a href="#executor">Executor</a></li>
+              <li><a href="#resolver">Resolver</a></li>
+              <li><a href="#rejector">Rejector</a></li>
+              <li><a href="#thenable">Thenable</a></li>
+              <li>
+                <a href="#resolving-and-rejecting-promises">
+                  Resolving and rejecting promises
+                </a>
+              </li>
+              <li><a href="#resolving-promises">Resolving promises</a></li>
+              <li><a href="#rejecting-promises">Rejecting promises</a></li>
+              <li><a href="#empty-promises">Empty promises</a></li>
+              <li><a href="#reacting-to-promises">Reacting to promises</a></li>
+              <li>
+                <a href="#resolution-job-queues">Resolution job queues</a>
+              </li>
+              <li><a href="#using-promised-data">Using promised data</a></li>
+              <li><a href="#error-callbacks">Error callbacks</a></li>
+              <li><a href="#always-reacting">Always reacting</a></li>
+              <li>
+                <a href="#resolving-other-promises">Resolving other promises</a>
+              </li>
+              <li><a href="#promise–like-objects">Promise–like objects</a></li>
+              <li>
+                <a href="#building-callback-chains">Building callback chains</a>
+              </li>
+              <li>
+                <a href="#promises-only-change-state-once">
+                  Promises only change state once
+                </a>
+              </li>
+              <li><a href="#immutable-promises">Immutable promises</a></li>
+              <li>
+                <a href="#many-then-callbacks-many-promises">
+                  Many then callbacks, many promises
+                </a>
+              </li>
+              <li>
+                <a href="#passing-promises-around">Passing promises around</a>
+              </li>
+              <li>
+                <a href="#synchronizing-several-promises">
+                  Synchronizing several promises
+                </a>
+              </li>
+              <li><a href="#waiting-on-promises">Waiting on promises</a></li>
+              <li><a href="#cancelling-promises">Cancelling promises</a></li>
+              <li>
+                <a href="#promises-without-executors">
+                  Promises without executors
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter4/chapter4.html">
+              Chapter 4: Lazy Evaluation with Generators
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-9 offset-lg-3 col-xl-9 offset-xl-3 main-content"
+      >
+        <div class="container">
+          <h4>Chapter 3: Synchronizing with Promises</h4>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../js/main.js"></script>
+  </body>
+</html>
