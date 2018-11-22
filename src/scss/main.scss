@@ -39,15 +39,19 @@ $sidebar-mobile-height: 40px;
       color: $black-color-active;
     }
   }
-}
 
-.sidebar-mobile {
-  height: $sidebar-mobile-height;
-  left: 0;
-  z-index: 1031;
+  &.sidebar-main {
+    overflow: auto;
+  }
 
-  @media (min-width: 992px) {
-    display: none;
+  &.sidebar-mobile {
+    height: $sidebar-mobile-height;
+    left: 0;
+    z-index: 1031;
+
+    @media (min-width: 992px) {
+      display: none;
+    }
   }
 }
 
