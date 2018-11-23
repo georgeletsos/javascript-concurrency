@@ -135,9 +135,9 @@
             transform: rotate(-90deg); }
 
 /*!
- * Principles tooltips
+ * Terms tooltips
  */
-.principle {
+.term {
   color: #0645ad;
   text-decoration: underline;
   -webkit-text-decoration-style: dotted;
