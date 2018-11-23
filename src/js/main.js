@@ -52,6 +52,9 @@ snippets.forEach(function(snippet) { // eslint-disable-line
   // Find parent snippet Element
   var snippetClass = snippet.name;
   var snippetElement = document.querySelector("." + snippetClass);
+  if (!snippetElement) {
+    return;
+  }
 
   // Find child code-block of snippet Element
   var codeBlock = snippetElement.querySelector(".code-block");
@@ -62,10 +65,12 @@ snippets.forEach(function(snippet) { // eslint-disable-line
 
   // Find child run-code button of snippet Element
   var runCodeButton = snippetElement.querySelector(".run-code-button");
-  if (runCodeButton) {
-    // (If it exists) Add EventHandler to run the code-block on click
-    runCodeButton.addEventListener("click", function() {
-      snippet();
-    });
+  if (!runCodeButton) {
+    return;
   }
+
+  // (If it exists) Add EventHandler to run the code-block on click
+  runCodeButton.addEventListener("click", function() {
+    snippet();
+  });
 });
