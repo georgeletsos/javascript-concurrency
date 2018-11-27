@@ -31,12 +31,21 @@ var terms = {
   synchronize:
     "The synchronize principle is about the mechanisms used to coordinate concurrent actions and the abstractions of those mechanisms. Callback functions is the obvious tool of choice when we need to run some code, but we don't want to run it now. Keep in mind that callbacks fall apart when there are plenty them, and lots of dependencies between them.",
   conserve:
-    "The conserve principle is about saving on compute and memory resources. This is done by using lazy evaluation techniques, meaning we don't actually compute a new value until we're sure we actually need it. "
+    "The conserve principle is about saving on compute and memory resources. This is done by using lazy evaluation techniques, meaning we don't actually compute a new value until we're sure we actually need it. ",
+  executionEnvironment:
+    "This container gets created whenever a new web page is opened. It's the all-encompassing environment, which has everything that our JavaScript code will interact with. It also serves as a sandbox—our JavaScript code can't reach outside of this environment.",
+  javascriptInterpreter:
+    "This is the component that's responsible for parsing and executing our JavaScript source code. It's the browser's job to augment the interpreter with globals, such as window, and XMLHttpRequest.",
+  taskQueue:
+    "Tasks are queued whenever something needs to happen. An execution environment has at least one of these queues, but typically, it has several of them.",
+  eventLoop:
+    "An execution environment has a single event loop that's responsible for servicing all task queues. There's only one event loop, because there's only one thread."
 };
 
-tippy("[data-term='parallelize']", { content: terms.parallelize }); // eslint-disable-line
-tippy("[data-term='synchronize']", { content: terms.synchronize }); // eslint-disable-line
-tippy("[data-term='conserve']", { content: terms.conserve }); // eslint-disable-line
+Object.keys(terms).forEach(function(name) {
+  var term = terms[name];
+  tippy("[data-term='" + name +"']", { content: term }); // eslint-disable-line
+});
 
 /*
  * Snippets
