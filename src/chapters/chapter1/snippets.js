@@ -10,7 +10,6 @@ snippets.push(function snippet1() {
   for (let item of collection) {
     results.push(String.fromCharCode(item.charCodeAt(0)));
   }
-
   console.log(results);
   // [ 'a', 'b', 'c', 'd' ]
 });
