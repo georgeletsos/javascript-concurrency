@@ -129,15 +129,19 @@ snippets.push(function snippet5() {
   }
   // Listen to the "mousemove" event using the debounced
   // version of the "onMouseMove()" function. If we
-  // didn't wrap this callback with "debounce()"
+  // didn't wrap this callback with "debounce()",
+  // the "onMouseMove()" function would be triggered
+  // every time the mouse moved.
   window.addEventListener("mousemove", debounce(onMouseMove, 300));
   // Listen to the "input" event using the debounced version
   // of the "onInput()" function to prevent triggering events
   // on every keystroke.
   document
-    .querySelector("input")
+    .querySelector("input[debounce]")
     .addEventListener("input", debounce(onInput, 250));
 });
+// Run Snippet 5
+snippets[snippets.length - 1]();
 
 /**
  * Snippet 6
@@ -198,11 +202,13 @@ snippets.push(function snippet7() {
   var req1 = new XMLHttpRequest(),
     req2 = new XMLHttpRequest(),
     req3 = new XMLHttpRequest(),
+    requests = [req1, req2, req3],
     responses = [];
   // Issue network requests for all our network requests.
-  for (let req of [req1, req2, req3]) {
+  for (let i = 0; i < requests.length; i++) {
+    let req = requests[i];
     req.addEventListener("load", onLoad);
-    req.open("get", "https://jsonplaceholder.typicode.com/posts/2");
+    req.open("get", "https://jsonplaceholder.typicode.com/posts/" + (i + 1));
     req.send();
   }
 });
