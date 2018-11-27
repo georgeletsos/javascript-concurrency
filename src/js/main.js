@@ -27,11 +27,11 @@ tippy.setDefaults({ // eslint-disable-line
 
 var terms = {
   parallelize:
-    "The parallelize principle means taking advantage of modern CPU capabilities to compute results in less time. This is now possible in any modern browser or NodeJS environment. In the browser, we can achieve true parallelism using web workers. In Node, we can achieve true parallelism by spawning new processes.",
+    "The parallelize principle means taking advantage of modern CPU capabilities to compute results in less time. This is now possible in any modern browser, by using web workers, or NodeJS environment, by spawning new processes. The real benefit is that we can compute using larger data sets as input, and have a smaller opportunity of an unresponsive user experience due to long-running JavaScript.",
   synchronize:
-    "The synchronize principle is about the mechanisms used to coordinate concurrent actions and the abstractions of those mechanisms. Callback functions are the obvious tool of choice when we need to run some code, but we don't want to run it now.",
+    "The synchronize principle is about the mechanisms used to coordinate concurrent actions and the abstractions of those mechanisms. Callback functions is the obvious tool of choice when we need to run some code, but we don't want to run it now. Keep in mind that callbacks fall apart when there are plenty them, and lots of dependencies between them.",
   conserve:
-    "The conserve principle is about saving on compute and memory resources. This is done by using lazy evaluation techniques. The name lazy stems from the idea that we don't actually compute a new value until we're sure we actually need it. "
+    "The conserve principle is about saving on compute and memory resources. This is done by using lazy evaluation techniques, meaning we don't actually compute a new value until we're sure we actually need it. "
 };
 
 tippy("[data-term='parallelize']", { content: terms.parallelize }); // eslint-disable-line
