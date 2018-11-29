@@ -12,7 +12,7 @@ snippets.push(function snippet1() {
     setTimeout(resolve, 1000);
   }
   // The fulfillment callback for our promise. This
-  // simply stopsthe fullfillment timer that was
+  // simply stops the fullfillment timer that was
   // started after our executor function was run.
   function fulfilled() {
     console.timeEnd("fulfillment");
@@ -72,7 +72,7 @@ snippets.push(function snippet3() {
     console.error(reason);
   }
   // Creates the promise, and runs the executor. Uses the
-  // "catch()" method to assing the rejector callback function.
+  // "catch()" method to assign the rejector callback function.
   var promise = new Promise(executor);
   promise.catch(rejected);
 });
@@ -591,8 +591,10 @@ snippets.push(function snippet18() {
   // when all promises resolve. Our callback gets an array
   // of resolved values that correspond to the promises.
   Promise.all(requests).then(values => {
-    console.log("first", values.map(x => x.title));
-    console.log("second", values.map(x => x.title));
+    console.log("completed", values.map(x => x.completed));
+    console.log("id", values.map(x => x.id));
+    console.log("title", values.map(x => x.title));
+    console.log("userId", values.map(x => x.userId));
   });
 });
 
@@ -607,8 +609,8 @@ snippets.push(function snippet19() {
   // promises.
   var CANCELLED = {};
   // Our UI components.
-  var buttonLoad = document.querySelector("button.load"),
-    buttonCancel = document.querySelector("button.cancel");
+  var buttonLoad = document.querySelector("button[load]"),
+    buttonCancel = document.querySelector("button[cancel]");
   // Requests data, returns a promise.
   function getDataPromise() {
     // Creates the cancel promise. The executor assigns
@@ -722,28 +724,14 @@ snippets.push(function snippet21() {
   // Each call to "getData()" is consistent. Even
   // when synchronous values are used, they still
   // get resolved as promises.
-  getData("foo").then(
-    value => {
-      console.log("getting foo", `"${value}"`);
-    },
-    reason => {
-      console.error(reason);
-    }
-  );
-  getData("bar").then(
-    value => {
-      console.log("getting bar", `"${value}"`);
-    },
-    reason => {
-      console.error(reason);
-    }
-  );
-  getData("foo").then(
-    value => {
-      console.log("getting foo", `"${value}"`);
-    },
-    reason => {
-      console.error(reason);
-    }
-  );
+  ["foo", "bar", "foo"].forEach(function(el) {
+    getData(el).then(
+      value => {
+        console.log(`getting ${el}`, `"${value}"`);
+      },
+      reason => {
+        console.error(reason);
+      }
+    );
+  });
 });
