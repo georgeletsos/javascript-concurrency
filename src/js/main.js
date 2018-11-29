@@ -39,7 +39,15 @@ var terms = {
   taskQueue:
     "Tasks are queued whenever something needs to happen. An execution environment has at least one of these queues, but typically, it has several of them.",
   eventLoop:
-    "An execution environment has a single event loop that's responsible for servicing all task queues. There's only one event loop, because there's only one thread."
+    "An execution environment has a single event loop that's responsible for servicing all task queues. There's only one event loop, because there's only one thread.",
+  executor:
+    "The executor function is responsible for somehow resolving the value that the caller is waiting for. This function is called immediately after the promise is created. It takes two arguments: a resolver function and a rejector function.",
+  resolver:
+    "It's the first argument passed to the executor function, which can be called from anywhere. When it's called, the promise moves into a fulfilled state. This change in state will trigger any then() callbacks.",
+  rejector:
+    "It's the second argument passed to the executor function, which can be called from anywhere as well. When it's called, it changes the state of the promise from pending to rejected. This state change will call the error callback function, if any, passed to then() or catch().",
+  thenable:
+    "An object is thenable if it has a then() method that accepts a fulfillment callback and a rejection callback as arguments. In other words, a promise is thenable."
 };
 
 Object.keys(terms).forEach(function(name) {
