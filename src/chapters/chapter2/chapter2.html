@@ -494,7 +494,7 @@
               <em>setTimeout()</em> looks like:
             </p>
             <div class="snippet1">
-              <pre><code class="code-block"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
             </div>
             <p>
               Here's the part that's misunderstood by JavaScript newcomers; it's
@@ -521,7 +521,7 @@
               Let's take a look at an example to see how this is possible:
             </p>
             <div class="snippet2">
-              <pre><code class="code-block"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
             </div>
           </div>
 
@@ -565,7 +565,7 @@
               that runs afterward:
             </p>
             <div class="snippet3">
-              <pre><code class="code-block"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
             </div>
           </div>
 
@@ -613,7 +613,7 @@
               as the following code illustrates:
             </p>
             <div class="snippet4">
-              <pre><code class="code-block"></code><div class="position-absolute" style="top: 0; right: 0;"><button class="btn btn-secondary shadow-none" time>Time</button></div></pre>
+              <pre><code class="code-block javascript"></code><div class="position-absolute" style="top: 0; right: 0;"><button class="btn btn-secondary shadow-none" time>Time</button></div></pre>
             </div>
             <p>
               It's good practice to name functions that are used in callbacks
@@ -632,9 +632,9 @@
               lots of them, in a very short amount of time. For instance, when
               the user moves the mouse around on the screen, hundreds of events
               are dispatched. If we had event targets listening for these
-              events, the <span class="term" data-term="taskQueue"
-              >task queue</span> would quickly fill up, and the user
-              experience would bog down.
+              events, the
+              <span class="term" data-term="taskQueue">task queue</span> would
+              quickly fill up, and the user experience would bog down.
             </p>
             <p>
               Even when we do have event listeners in place for high frequency
@@ -642,9 +642,12 @@
               to all of them. For example, if there's 150 mouse move events that
               take place in 1-2 seconds, chances are, we only care about the
               last move—the most recent position of the mouse pointer. That is,
-              the <span class="term" data-term="javascriptInterpreter"
-              >JavaScript interpreter</span> is being invoked with our event
-              callback code 149 times more than it needs to.
+              the
+              <span class="term" data-term="javascriptInterpreter"
+                >JavaScript interpreter</span
+              >
+              is being invoked with our event callback code 149 times more than
+              it needs to.
             </p>
             <p>
               To deal with these types of event frequency scenarios, we can
@@ -655,7 +658,7 @@
               how we can implement this:
             </p>
             <div class="snippet5">
-              <pre><code class="code-block"></code><div class="position-absolute" style="top: .2rem; right: .2rem;"><input type="text" class="form-control" placeholder="Debouncing Input" debounce></div></pre>
+              <pre><code class="code-block javascript"></code><div class="position-absolute" style="top: .2rem; right: .2rem;"><input type="text" class="form-control" placeholder="Debouncing Input" debounce></div></pre>
             </div>
             <p>
               Using the debounce technique to avoid giving the CPU more work
@@ -705,7 +708,7 @@
               an example of what this code looks like:
             </p>
             <div class="snippet6">
-              <pre><code class="code-block"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
             </div>
             <p>
               We can see here that there are a number of possible states for
@@ -743,7 +746,7 @@
               about doing this using the <em>EventTaget</em> callback functions:
             </p>
             <div class="snippet7">
-              <pre><code class="code-block"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
             </div>
             <p>
               There's a lot of extra bits to consider when there's more than one
