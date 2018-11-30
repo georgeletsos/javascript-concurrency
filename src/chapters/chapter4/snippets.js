@@ -349,7 +349,7 @@ snippets.push(function snippet12() {
     var generators = sources.map(source => toGen(source));
     // Starts the main weaving loop. It makes it's
     // way through each source, yielding one item
-    // from each, then starting over, till every
+    // from each, then starting over, until every
     // source is empty.
     while (yielding) {
       yielding = false;
@@ -700,8 +700,6 @@ snippets.push(function snippet19() {
     var e;
     while (true) {
       e = yield;
-      // Disables the button that was clicked.
-      e.target.disabled = true;
       // If the first button was clicked, toggle
       // the state of the second button.
       if (Object.is(e.target, first)) {
