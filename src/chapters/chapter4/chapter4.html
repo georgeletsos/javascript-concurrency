@@ -319,11 +319,11 @@
               The <em>next()</em> method gets us, not surprisingly, the next
               value in the generator sequence. The actual value returned by
               <em>next()</em> is an object with two properties: the yielded
-              value and whether or not the generator is <em>done</em>. However,
-              we generally don't want to hard-code our calls to <em>next()</em>.
-              Instead, we want to call it iteratively as values are yielded from
-              the generator. Here's an example that uses a <em>while</em> loop
-              to iterate over a generator:
+              <em>value</em> and whether or not the generator is <em>done</em>.
+              However, we generally don't want to hard-code our calls to
+              <em>next()</em>. Instead, we want to call it iteratively as values
+              are yielded from the generator. Here's an example that uses a
+              <em>while</em> loop to iterate over a generator:
             </p>
             <div class="snippet3">
               <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
@@ -388,15 +388,15 @@
             <h5>Alternating sequences</h5>
             <p>
               A variation on infinite sequences is either a circular sequence or
-              an alternating sequence. These types of sequences are circular
-              when the end is reached; they start from the beginning. These
-              types of sequences will continue to generate values infinitely.
-              This becomes useful when we have a set of rules that determine how
-              the sequence is defined and the set of items that's generated;
-              then, we start this set all over again. Now, let's look at some
-              code to see the implementation of these sequences using
-              generators. Here's a generic generator function that we can use to
-              alternate between values:
+              an alternating sequence. In circular types of sequences when the
+              end is reached; they start from the beginning. While alternating
+              types of sequences alternate between two values and will continue
+              to generate values infinitely. This becomes useful when we have a
+              set of rules that determine how the sequence is defined and the
+              set of items that's generated; then, we start this set all over
+              again. Now, let's look at some code to see the implementation of
+              these sequences using generators. Here's a generic generator
+              function that we can use to alternate between values:
             </p>
             <div class="snippet6">
               <!-- prettier-ignore -->
@@ -456,9 +456,9 @@
               Deferring to other generators gives our functions the ability to
               decide at run-time, to hand off control from one generator to
               another. In other words, it allows the selection of a more
-              appropriate generator function based on a strategy. What we have
-              here are three specialized generators that we would like to use
-              throughout our application. That is, they each work in their own
+              appropriate generator function based on a strategy. Let's assume
+              that we need three specialized generators that we would like to
+              use throughout our application. Each one should work in their own
               unique way. Perhaps, they're tailored for specific types of
               inputs. However, these generators simply make assumptions about
               the input that they're given. It may not be the best tool for the
