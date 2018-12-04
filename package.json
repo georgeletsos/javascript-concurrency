@@ -4,7 +4,8 @@
   "description": "Javascript Concurrency",
   "scripts": {
     "dev": "webpack --config webpack.config.js",
-    "watch": "npm run dev -- --watch"
+    "watch": "npm run dev -- --watch",
+    "server": "http-server"
   },
   "devDependencies": {
     "autoprefixer": "^9.3.1",
@@ -12,6 +13,7 @@
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-prettier": "^3.0.0",
+    "http-server": "^0.11.1",
     "mini-css-extract-plugin": "^0.4.4",
     "node-sass": "^4.11.0",
     "postcss-loader": "^3.0.0",
