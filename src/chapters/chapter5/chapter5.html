@@ -127,6 +127,11 @@
               <li><a href="#exception-handling">Exception handling</a></li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="chapters/chapter6/chapter6.html">
+              Chapter 6: Practical Parallelism
+            </a>
+          </li>
         </ul>
       </div>
       <div
@@ -889,8 +894,8 @@
             </div>
             <p>
               We're able to talk to the worker, passing it an input array and
-              data to search for. The results are passed by the main thread,
-              and they include the search term, so we're able to reconcile the
+              data to search for. The results are passed by the main thread, and
+              they include the search term, so we're able to reconcile the
               output with the original message that we sent to the worker.
               However, there are some significant hurdles to overcome here.
               While this is really useful, being able to subdivide tasks to make
