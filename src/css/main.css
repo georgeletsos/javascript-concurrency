@@ -138,10 +138,7 @@
  * Terms tooltips
  */
 .term {
-  color: #0645ad;
-  text-decoration: underline;
-  -webkit-text-decoration-style: dotted;
-          text-decoration-style: dotted;
+  border-bottom: 1px dotted;
   cursor: help; }
 
 /*!

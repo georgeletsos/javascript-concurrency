@@ -167,9 +167,7 @@ $sidebar-mobile-height: 40px;
  * Terms tooltips
  */
 .term {
-  color: #0645ad;
-  text-decoration: underline;
-  text-decoration-style: dotted;
+  border-bottom: 1px dotted;
   cursor: help;
 }
 
