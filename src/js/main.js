@@ -47,7 +47,9 @@ var terms = {
   rejector:
     "It's the second argument passed to the executor function, which can be called from anywhere as well. When it's called, it changes the state of the promise from pending to rejected. This state change will call the error callback function, if any, passed to then() or catch().",
   thenable:
-    "An object is thenable if it has a then() method that accepts a fulfillment callback and a rejection callback as arguments. In other words, a promise is thenable."
+    "An object is thenable if it has a then() method that accepts a fulfillment callback and a rejection callback as arguments. In other words, a promise is thenable.",
+  referentialTransparency:
+    "Referential transparency means that given the same object as input, no matter how many times it's called, the function will always return the same result."
 };
 
 Object.keys(terms).forEach(function(name) {
