@@ -121,6 +121,11 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter7/chapter7.html">
+              Chapter 7: Abstracting Concurrency
+            </a>
+          </li>
         </ul>
       </div>
       <div
@@ -791,9 +796,9 @@
             </p>
             <p>
               JavaScript is run-to-completion, which we're well aware at this
-              point. This means that less time spent in the top-half, is
-              time that's spent responding to users by updating the screen. At
-              the same time, JavaScript is also run-to-completion within the web
+              point. This means that less time spent in the top-half, is time
+              that's spent responding to users by updating the screen. At the
+              same time, JavaScript is also run-to-completion within the web
               worker where our bottom-halves run. This means that the same
               limitation applies here; if our worker gets 100 messages sent to
               it in a short period of time, they're processed in
