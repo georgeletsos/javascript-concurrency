@@ -180,7 +180,6 @@ snippets.push(function snippet5() {
       // The ID that's used to tie together a web worker
       // response, and a resolver function.
       var msgId = id.next().value;
-
       // Stores the resolver so in can be used later, in
       // the web worker message callback.
       resolvers[msgId] = resolve;
@@ -497,7 +496,7 @@ snippets.push(function snippet13() {
   // created at this point - we only pass the constructor
   // the data we're working with.
   var job1 = new Parallel(array);
-  // Start a timer for our "spawn()" job.
+  // Start a timer for the job.
   console.time("job1");
   // The problem here is that Parallel.js will
   // create a new worker for every array element, resulting
@@ -528,7 +527,6 @@ snippets.push(function snippet14() {
   var array = new Array(2500).fill(null).map((v, i) => i);
   // A faster implementation.
   var job2 = new Parallel(array);
-
   console.time("job2");
   // Before mapping the array, split the array into chunks
   // of smaller arrays. This way, each Parallel.js worker is
@@ -578,7 +576,7 @@ snippets.push(function snippet14() {
 // eslint-disable-next-line
 snippets.push(function snippet15() {
   // Represents a "pool" of web worker threads, hidden behind
-  // the interface of a single web worker interface.
+  // the interface of a single web worker.
   function WorkerPool(script) {
     // The level of concurrency, or, the number of web
     // workers to create. This uses the
@@ -733,8 +731,8 @@ snippets.push(function snippet17() {
     pool.postMessage(amount).then(function(result) {
       console.timeEnd(timer);
     });
-    // If messages are getting queued, our pool is
-    // overworked display a warning.
+    // If messages are getting queued, meaning
+    // our pool is overworked, display a warning.
     if (pool.queue.length) {
       console.warn("Worker pool is getting busy...");
     }
