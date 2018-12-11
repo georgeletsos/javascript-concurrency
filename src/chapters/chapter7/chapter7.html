@@ -229,10 +229,10 @@
             </p>
             <p>
               Let's turn our attention to some code now. We'll create two
-              functions: one asynchronous and the other a plain old function
-              that simply returns a value. The goal here is to make the code
-              that uses these functions the same, despite the major differences
-              in how the value is generated:
+              functions: one asynchronous and one plain old function that simply
+              returns a value. The goal here is to make the code that uses these
+              functions the same, despite the major differences in how the value
+              is generated:
             </p>
             <div class="snippet1">
               <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
@@ -360,8 +360,8 @@
               <em>postMessage()</em> function implementation if we're so
               inclined. The main trick involved with making this work is storing
               a reference to the original <em>postMessage()</em>. Then, we
-              override the web worker property <em>postMessage</em>, not the function
-              itself. Finally, we can reuse it to add the necessary
+              override the web worker property <em>postMessage</em>, not the
+              function itself. Finally, we can reuse it to add the necessary
               reconciliation and promise goodness.
             </p>
           </div>
@@ -374,16 +374,16 @@
               we've got a handle on how to encapsulate web worker communication
               by having <em>postMessage()</em> return a promise, we're ready to
               start simplifying any messy worker code that isn't using this
-              approach. The examples that we've looked at so far, have
-              benefited greatly from promises, they are simple; not having these
+              approach. The examples that we've looked at so far, have benefited
+              greatly from promises, they are simple; not having these
               abstractions wouldn't be the end of the world.
             </p>
             <p>
               What about the scenario where we map a collection of data and then
               reduce the mapped collection? We may recall the map reduce code
               got a little hairy in
-              <a href="../chapter6/chapter6.html"
-                >Chapter 6, Practical Parallelism</a
+              <a href="../chapter6/chapter6.html#mapping-and-reducing"
+                >Chapter 6, Practical Parallelism: Mapping and reducing</a
               >. This is mostly due to all the worker communication boilerplate
               code entangled with the code that's trying to execute a map/reduce
               operation. Let's see if we fair any better using our promise
@@ -438,23 +438,18 @@
           <div id="reducing-overhead">
             <h5>Reducing overhead</h5>
             <p>
-              The main thread can offload expensive operations web workers,
+              The main thread can offload expensive operations to web workers,
               running them in another thread. This means the DOM is able to
               paint pending updates and process pending user events. However, we
               still face the overhead of allocating large arrays and the time
               taken to update the UI. Despite parallel processing with web
               workers, our users could still face a slowdown because there's no
               update to the UI until the entire data set has been processed.
-              Here is a visualization of the general pattern:
             </p>
             <p>
-              This is a generic path taken by data with a single worker; the
-              same approach applies when there are multiple workers. With this
-              approach, we can't escape the fact that we need to serialize the
-              data twice, and we have to allocate it twice. These overheads are
-              merely to facilitate the worker communication and have very little
-              to do with the application functionality that we're trying to
-              implement.
+              These overheads are merely to facilitate the worker communication
+              and have very little to do with the application functionality that
+              we're trying to implement.
             </p>
             <p>
               The overhead with arrays and serialization, required for worker
@@ -465,11 +460,10 @@
               perspective doesn't hurt, even if it's not necessary at first.
             </p>
             <p>
-              Here's a variation of the generic path taken by most workers.
               Instead of allocating and serializing lots of data upfront,
-              individual items are passed in and out of workers. This gives the
-              UI a chance to update using the data that's been processed, before
-              all of the processed data arrives.
+              individual items could be passed in and out of workers. This would
+              give the UI a chance to update using the data that's been already
+              processed, before all of the processed data arrives.
             </p>
           </div>
 
@@ -535,15 +529,17 @@
             <h5>Lazy worker chains</h5>
             <p>
               As we saw in
-              <a href="../chapter4/chapter4.html"
-                >Chapter 4, Lazy Evaluation with Generators</a
+              <a href="../chapter4/chapter4.html#lightweight-map-reduce"
+                >Chapter 4, Lazy Evaluation with Generators: Lightweight
+                map/reduce</a
               >
               we can assemble chains of generators. This is how we implement
               complex functionality lazily; an item flows through a chain of
-              generator functions that transform the item before yielding to the
-              next generator until it reaches the caller. Without generators, we
-              would have to allocate a lot of intermediary data structures just
-              for the sake of passing data from one function to the next.
+              generator functions that transform the item before yielding it to
+              the next generator until it reaches the caller. Without
+              generators, we would have to allocate a lot of intermediary data
+              structures just for the sake of passing data from one function to
+              the next.
             </p>
             <p>
               In the section prior to this one, we saw that a pattern similar to
@@ -582,23 +578,19 @@
               <em>postMessage()</em> method pattern comes from.
             </p>
             <p>
-              The following is a visualization of how we would go about
-              connecting our web workers using channels and ports:
+              Each channel uses two messaging ports. The first port is used to
+              post messages, whereas the second is used to receive message
+              events. The only time the main thread is used is when the
+              processing chain is first kicked off by posting a message to the
+              first channel and when the message is received from the last
+              channel.
             </p>
             <p>
-              As we can see, each channel uses two messaging ports. The first
-              port is used to post messages, whereas the second is used to
-              receive message events. The only time the main thread is used is
-              when the processing chain is first kicked off by posting a message
-              to the first channel and when the message is received from the
-              third channel.
-            </p>
-            <p>
-              Instead of letting the six ports required for worker communication
-              intimidate us, let's write some code; maybe, it'll look a little
-              more approachable there. First we'll create the workers used in
-              the chain. Actually, they're two instances of the same worker.
-              Here's the code:
+              Instead of letting this complex worker communication intimidate
+              us, let's write some code; maybe, it'll look a little more
+              approachable there. First we'll create the workers used in the
+              chain. Actually, they're two instances of the same worker. Here's
+              the code:
             </p>
             <div class="snippet10">
               <!-- prettier-ignore -->
@@ -613,10 +605,8 @@
               in our main thread is to create two instances of this worker so
               that we can pass the first instance a number to square. Then,
               without passing the result back to the main thread, it passes the
-              result to the next worker, and the number is squared again. The
-              communication paths should closely mimic the previous diagram.
-              Let's look at some code that connects workers using messaging
-              channels:
+              result to the next worker, and the number is squared again. Let's
+              look at some code that connects workers using messaging channels:
             </p>
             <div class="snippet11">
               <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
@@ -629,7 +619,7 @@
               we're not doing anything with it. In fact, these are the only
               messages we're sending directly to the worker. The rest of the
               communication happens through the message channels that we've
-              created. The expensive computation happens on the worker because
+              created. The expensive computation happens in the worker because
               that's where the message handler resides.
             </p>
           </div>
@@ -689,10 +679,6 @@
               to build only the concurrency functionality that's relevant to our
               application and not a host of other functions that we'll never
               use.
-            </p>
-            <p>
-              Here is an illustration of how we pass data and code into a worker
-              using <em>Parallel.js</em> and its <em>eval</em> script:
             </p>
           </div>
 
@@ -769,7 +755,7 @@
               overhead. The reason this is happening in this particular example
               is due to the way <em>Parallel.js</em> processes arrays in
               <em>map()</em>. Each array item goes through a worker. This
-              doesn't mean that 'there are 2500 workers created—one for each
+              doesn't mean that there are 2500 workers created—one for each
               element in the array. The number of created workers maxes out at
               four or the <em>navigator.hardwareConcurrency</em> value—similar
               semantics we looked at earlier in this book.
@@ -799,7 +785,7 @@
             <p>
               <em
                 >Just like the <em>spawn()</em> method cleans up the worker when
-                it returns, so too do the <em>map()</em> and <em>reduce()</em>
+                it returns, so do the <em>map()</em> and <em>reduce()</em>
                 <em>Parallel.js</em> methods. The downside to freeing workers is
                 that they need to be recreated whenever these methods are
                 called. We'll address this challenge in the next section.</em
@@ -877,12 +863,14 @@
               <pre><code class="code-block javascript"></code></pre>
             </div>
             <p>
-              It's the promise executor function that takes care of actually
-              finding the first available worker and posting our message there.
-              When an available worker is found, we also set the worker's
-              resolver function in our <em>workers</em> map. If there are no
-              available <em>workers</em> in the pool, the posted message goes
-              into the <em>queue</em>. This queue is emptied in the
+              It's the promise
+              <span class="term" data-term="executor">executor function</span>
+              that takes care of actually finding the first available worker and
+              posting our message there. When an available worker is found, we
+              also set the worker's resolver function in our
+              <em>workers</em> map. If there are no available
+              <em>workers</em> in the pool, the posted message goes into the
+              <em>queue</em>. This queue is emptied in the
               <em>message</em> event handler. This is because when a worker
               comes back with a message, it means the worker is free to take on
               more work, and it checks if there's anything queued before
@@ -909,10 +897,10 @@
               longer the work will take; it uses our standard
               <em>work()</em> function that slowly squares numbers. If we use a
               large number and frequently click the button that posts the
-              message to the pool, then eventually, we'll exhaust the pool. If
-              'this is the case, we will display a warning. However, this is
-              just for troubleshooting purposes—the posted messages aren't lost
-              when the pool is busy, they're simply queued.
+              message to the pool, then eventually we'll exhaust the pool. If
+              that's the case, we will display a warning. However, this is just
+              for troubleshooting purposes—the posted messages aren't lost when
+              the pool is busy, they're simply queued.
             </p>
           </div>
         </div>
