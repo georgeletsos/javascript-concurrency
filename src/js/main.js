@@ -93,3 +93,26 @@ snippets.forEach(function(snippet) { // eslint-disable-line
     snippet();
   });
 });
+
+/**
+ * Co Wrap
+ */
+
+/**
+ * Wrap the given generator `fn` into a
+ * function that returns a promise.
+ * This is a separate function so that
+ * every `co()` call doesn't create a new,
+ * unnecessary closure.
+ *
+ * @param {GeneratorFunction} fn
+ * @return {Function}
+ * @api public
+ */
+co.wrap = function(fn) { //eslint-disable-line
+  createPromise.__generatorFunction__ = fn;
+  return createPromise;
+  function createPromise() {
+    return co.call(this, fn.apply(this, arguments)); //eslint-disable-line
+  }
+};
