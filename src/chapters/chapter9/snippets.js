@@ -6,7 +6,7 @@ var snippets = [];
 // eslint-disable-next-line
 snippets.push(function snippet1() {
   co(function*() {
-    // TODO: co-routine amazeballs.
+    // TODO: coroutine amazeballs.
   });
 });
 
@@ -106,7 +106,7 @@ snippets.push(function snippet5() {
       }, 1000);
     });
     // At this point, we have a "userID" value. This
-    // nested co-routine will look up the user based
+    // nested coroutine will look up the user based
     // on this ID. We nest coroutines like this because
     // "co()" returns a promise.
     var user = yield co(function*(id) {
@@ -137,7 +137,7 @@ snippets.push(function snippet6() {
     { name: "User4" }
   ];
   // The "getUser()" function will create a new
-  // co-routine whenever it's called, forwarding
+  // coroutine whenever it's called, forwarding
   // any arguments as well.
   var getUser = co.wrap(function*(id) {
     let user = yield new Promise((resolve, reject) => {
@@ -158,7 +158,7 @@ snippets.push(function snippet6() {
         resolve(1);
       }, 1000);
     });
-    // Instead of a nested co-routine, we have a function
+    // Instead of a nested coroutine, we have a function
     // that can now be used elsewhere.
     var user = yield getUser(userID);
     console.log(user);
