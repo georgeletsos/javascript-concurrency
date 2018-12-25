@@ -146,7 +146,7 @@
  */
 pre {
   position: relative; }
-  pre .code-block {
+  pre .code-block:not(.html) {
     margin-left: -14px; }
   pre .run-code-button {
     position: absolute;
