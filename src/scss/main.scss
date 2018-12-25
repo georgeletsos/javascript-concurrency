@@ -177,7 +177,7 @@ $sidebar-mobile-height: 40px;
 pre {
   position: relative;
 
-  .code-block {
+  .code-block:not(.html) {
     margin-left: -14px;
   }
 
