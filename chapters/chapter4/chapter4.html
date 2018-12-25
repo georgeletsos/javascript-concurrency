@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../../css/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+
+    <script src="https://unpkg.com/tippy.js@3/dist/tippy.all.min.js"></script>
+
+    <title>Javascript Concurrency</title>
+  </head>
+  <body>
+    <div class="row no-gutters">
+      <div class="col-12 p-2 sidebar sidebar-mobile">
+        <div class="d-flex justify-content-between">
+          <h5 class="m-0">
+            <a href="../../index.html">Javascript Concurrency</a>
+          </h5>
+          <div class="hamburger hamburger--spin">
+            <div class="hamburger-box"><div class="hamburger-inner"></div></div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 p-2 sidebar sidebar-main"
+      >
+        <h5><a href="../../index.html">Javascript Concurrency</a></h5>
+        <ul class="nav flex-column table-of-contents">
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter1/chapter1.html">
+              Chapter 1: Why JavaScript Concurrency?
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter2/chapter2.html">
+              Chapter 2: The JavaScript Execution Model
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter3/chapter3.html">
+              Chapter 3: Synchronizing with Promises
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active">
+              Chapter 4: Lazy Evaluation with Generators
+            </a>
+            <ul>
+              <li>
+                <a href="#call-stacks-and-memory-allocation">
+                  Call stacks and memory allocation
+                </a>
+              </li>
+              <li>
+                <a href="#bookmarking-function-contexts">
+                  Bookmarking function contexts
+                </a>
+              </li>
+              <li>
+                <a href="#sequences-instead-of-arrays">
+                  Sequences instead of arrays
+                </a>
+              </li>
+              <li>
+                <a href="#creating-generators-and-yielding-values">
+                  Creating generators and yielding values
+                </a>
+              </li>
+              <li>
+                <a href="#generator-function-syntax">
+                  Generator function syntax
+                </a>
+              </li>
+              <li><a href="#yielding-values">Yielding values</a></li>
+              <li>
+                <a href="#iterating-over-generators">
+                  Iterating over generators
+                </a>
+              </li>
+              <li><a href="#infinite-sequences">Infinite sequences</a></li>
+              <li><a href="#no-end-in-sight">No end in sight</a></li>
+              <li>
+                <a href="#alternating-sequences">Alternating sequences</a>
+              </li>
+              <li>
+                <a href="#deferring-to-other-generators">
+                  Deferring to other generators
+                </a>
+              </li>
+              <li><a href="#selecting-a-strategy">Selecting a strategy</a></li>
+              <li>
+                <a href="#interweaving-generators">Interweaving generators</a>
+              </li>
+              <li>
+                <a href="#passing-data-to-generators">
+                  Passing data to generators
+                </a>
+              </li>
+              <li><a href="#reusing-generators">Reusing generators</a></li>
+              <li>
+                <a href="#lightweight-map-reduce">Lightweight map/reduce</a>
+              </li>
+              <li><a href="#coroutines">Coroutines</a></li>
+              <li>
+                <a href="#creating-coroutine-functions">
+                  Creating coroutine functions
+                </a>
+              </li>
+              <li><a href="#handling-dom-events">Handling DOM events</a></li>
+              <li>
+                <a href="#handling-promised-values">Handling promised values</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter5/chapter5.html"
+              >Chapter 5: Working with Workers</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter6/chapter6.html">
+              Chapter 6: Practical Parallelism
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter7/chapter7.html">
+              Chapter 7: Abstracting Concurrency
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter8/chapter8.html">
+              Chapter 8: Evented IO with NodeJS
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter9/chapter9.html">
+              Chapter 9: Advanced NodeJS Concurrency
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../chapter10/chapter10.html">
+              Chapter 10: Building a Concurrent Application
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div
+        class="col-12 col-sm-12 col-md-12 col-lg-9 offset-lg-3 col-xl-9 offset-xl-3 main-content"
+      >
+        <div class="container">
+          <h4>Chapter 4: Lazy Evaluation with Generators</h4>
+          <p>
+            Lazy evaluation is a programming technique, which is used when we
+            don't want to compute values until the very last second. This way,
+            we're sure we actually need it. The opposite approach, eager
+            evaluation, has the potential to compute several values that aren't
+            needed. This generally isn't a problem, until the size and
+            complexity of our applications grow beyond a level where these
+            wasted computations are imperceptible to the user.
+          </p>
+          <p>
+            The <em>Generator</em> is a new primitive type introduced to
+            JavaScript as a part of the ES6 specification of the language.
+            Generators help us implement lazy evaluation techniques in our code,
+            and as a corollary, help us implement the
+            <span class="term" data-term="conserve"
+              >conserve concurrency principle</span
+            >.
+          </p>
+          <p>
+            We'll start the chapter off with some simple introductions to
+            generators, so we can get a feel for how they behave. From there,
+            we'll move onto more advanced lazy evaluation scenarios, wrapping up
+            the chapter with a look at coroutines. Let's get started.
+          </p>
+
+          <div id="call-stacks-and-memory-allocation">
+            <h5>Call stacks and memory allocation</h5>
+            <p>
+              Memory allocation is a necessity of any programming language.
+              Without this, we have no data structures to work with, not even
+              primitive types. Memory is cheap, and it seems that there's plenty
+              of it to go around; this isn't cause for celebration just yet.
+              While it's more feasible today to allocate larger data structures
+              in memory then it was 10 years ago, we still have to deallocate
+              that memory when we're done with it. JavaScript is a
+              garbage-collected language, which means our code doesn't have to
+              explicitly destroy objects in memory. However, the garbage
+              collector incurs a CPU penalty.
+            </p>
+            <p>
+              So there are two factors in play here. We want to conserve two
+              resources here, and we'll try to do so using generators to
+              implement lazy evaluation. We don't want to allocate memory
+              unnecessarily, and if we can avoid this, then we can avoid
+              invoking the garbage collector frequently. In this section, I'll
+              introduce some generator concepts.
+            </p>
+          </div>
+
+          <div id="bookmarking-function-contexts">
+            <h5>Bookmarking function contexts</h5>
+            <p>
+              In a normal function call stack, a function returns a value. The
+              <em>return</em> statement activates a new execution context and
+              discards the old context because we returned, so we're done with
+              it. Generator functions are a special kind of JavaScript function
+              denoted with their own syntax, and their call stacks aren't so
+              cut-and-dried compared to <em>return</em> statements.
+            </p>
+            <p>
+              Just as the <em>return</em> statement passes a value to the
+              calling context, the <em>yield</em> statement passes a value back.
+              However, unlike a regular function, generator function contexts
+              aren't discarded. In fact, they're bookmarked so that when control
+              is given back to the generator context, it can pick up where it
+              left off to continue yielding values until it's done. This
+              bookmarking data is very insignificant, as it just points to a
+              location in our code.
+            </p>
+          </div>
+
+          <div id="sequences-instead-of-arrays">
+            <h5>Sequences instead of arrays</h5>
+            <p>
+              In JavaScript, when we need to iterate over a list of things,
+              numbers, strings, objects, and so on, we use an array. Arrays are
+              general purpose and powerful. The challenge with arrays in the
+              context of lazy evaluation is that arrays themselves are data that
+              need to be allocated. So we have the elements within the array
+              that need to be allocated somewhere in memory, and we also have
+              metadata about the elements in the array.
+            </p>
+            <p>
+              If we're working with a large number of objects, the memory
+              overhead associated with the array is significant. Additionally,
+              we need to somehow put these objects in the array. This is an
+              additional step that adds CPU time. An alternative concept is a
+              sequence. Sequences aren't a tangible JavaScript language
+              construct. They're an abstract concept—arrays without actually
+              allocating arrays. Sequences help with lazy evaluation. For this
+              exact reason, there's nothing to allocate, and there's no initial
+              population step.
+            </p>
+            <p>
+              With sequences, we don't have an explicit container structure for
+              the objects that we're interested in iterating over. The only
+              overhead associated with a sequence is the pointer to the current
+              item. We can use generator functions as a mechanism for generating
+              sequences in JavaScript. As we saw in the preceding section,
+              generators bookmark their execution context when they yield values
+              back to the caller. This is the kind of minimal overhead that
+              we're looking for. It enables us to lazily evaluate objects and
+              iterate over them as a sequence.
+            </p>
+          </div>
+
+          <div id="creating-generators-and-yielding-values">
+            <h5>Creating generators and yielding values</h5>
+            <p>
+              In this section, I'll introduce the generator function syntax, and
+              we'll walk through yielding values from a generator. We'll also
+              look at the two approaches that we can use to iterate over values
+              yielded from generators.
+            </p>
+          </div>
+
+          <div id="generator-function-syntax">
+            <h5>Generator function syntax</h5>
+            <p>
+              The syntax for generator functions is nearly identical to normal
+              functions. The difference in the declaration is that the
+              <em>function</em> keyword is followed by an asterisk. The more
+              profound difference is the return value, which is always a
+              generator instance. Moreover, there's no need for the
+              <em>new</em> keyword, despite a new object being created. Let's
+              take a look at what a generator function looks like:
+            </p>
+            <div class="snippet1">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              It's highly unlikely that we'd ever use generators in this
+              fashion, but it's a good way to illustrate the nuances of
+              generator functions. For example, <em>return</em> statements are
+              perfectly valid within generator functions, and yet, they produce
+              a completely different result for the caller, as we can see. In
+              practice, we're far more likely to encounter
+              <em>yield</em> statements in generators, so let's look at them
+              next.
+            </p>
+          </div>
+
+          <div id="yielding-values">
+            <h5>Yielding values</h5>
+            <p>
+              The common case with generator functions is to yield values and
+              control back to the caller. Yielding control back to the caller is
+              a defining characteristic of generators. When we yield, the
+              generator bookmarks our position in the code. It does this because
+              the caller is likely going to request another value from the
+              generator, and when it does, the generator simply picks up where
+              it left off. Let's take a look at a generator function that yields
+              several times:
+            </p>
+            <div class="snippet2">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              The previous code is what a sequence looks like. We have three
+              values, and they're sequentially yielded from our function.
+              They're not put in any kind of container structure either. The
+              first call to <em>yield</em> passes <em>"first"</em> to
+              <em>next()</em>, which is where it's used. The same goes for the
+              other two values. In fact, this is lazy evaluation in action. We
+              have three calls to <em>console.log()</em>. The eager
+              implementation of <em>gen()</em> would return a collection of
+              values for us to log. Instead, when we need to log a value, we go
+              and get it from the generator. This is the laziness factor; we
+              conserve our efforts until they're actually required, avoiding
+              allocations and computations. The not-so-ideal aspect of our
+              previous example is that we're actually repeating calls to
+              <em>console.log()</em>, when really, we want to iterate over the
+              sequence, calling <em>console.log()</em> for each item in it.
+              Let's iterate over some generator sequences now.
+            </p>
+          </div>
+
+          <div id="iterating-over-generators">
+            <h5>Iterating over generators</h5>
+            <p>
+              The <em>next()</em> method gets us, not surprisingly, the next
+              value in the generator sequence. The actual value returned by
+              <em>next()</em> is an object with two properties: the yielded
+              <em>value</em> and whether or not the generator is <em>done</em>.
+              However, we generally don't want to hard-code our calls to
+              <em>next()</em>. Instead, we want to call it iteratively as values
+              are yielded from the generator. Here's an example that uses a
+              <em>while</em> loop to iterate over a generator:
+            </p>
+            <div class="snippet3">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              This loop will continue until the <em>done</em> property of the
+              yielded item is <em>true</em>; at this point, we know there aren't
+              any items, and thus, we can stop. This allows us to iterate over a
+              sequence of yielded values without the need to create an array for
+              the sole purpose of iterating over it. However, there's a lot of
+              boilerplate code in this loop that has more to do with managing
+              the generator iteration than actually iterating over it. Let's
+              take a look at another approach:
+            </p>
+            <div class="snippet4">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              This is much better. We've condensed our code down into something
+              that's much more focused on the task at hand. This code
+              essentially does the exact same thing as our <em>while</em> loop,
+              except the <em>for..of</em> statement, which understands what to
+              do when the iterable is a generator. Iterating over generators is
+              a common pattern in concurrent JavaScript applications, so
+              optimizing for compact and readable code here would be a wise
+              decision.
+            </p>
+          </div>
+
+          <div id="infinite-sequences">
+            <h5>Infinite sequences</h5>
+            <p>
+              Some sequences are infinite, prime numbers, Fibonacci numbers, odd
+              numbers, and so on. Infinite sequences aren't limited to sets of
+              numbers; more abstract notions can be considered infinite. For
+              example, a set of stings that repeats itself infinitely, a Boolean
+              value that toggles infinitely, and so on. In this section, we'll
+              explore how generators make it possible for us to work with
+              infinite sequences.
+            </p>
+          </div>
+
+          <div id="no-end-in-sight">
+            <h5>No end in sight</h5>
+            <p>
+              Allocating items from an infinite sequence isn't practical from a
+              memory consumption point of view. In fact, it's not even possible
+              to allocate the whole sequence—it's infinite. Memory is finite.
+              So, it's better to simply sidestep the whole allocation problem
+              entirely and use a generator to yield the values from the sequence
+              as we need them. At any given point in time, our application is
+              only going to use a tiny slice of the infinite sequence. Let's
+              take a look at some generator code that lazily produces items from
+              an infinite Fibonacci sequence:
+            </p>
+            <div class="snippet5">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+          </div>
+
+          <div id="alternating-sequences">
+            <h5>Alternating sequences</h5>
+            <p>
+              A variation on infinite sequences is either a circular sequence or
+              an alternating sequence. In circular types of sequences when the
+              end is reached; they start from the beginning. While alternating
+              types of sequences alternate between two values and will continue
+              to generate values infinitely. This becomes useful when we have a
+              set of rules that determine how the sequence is defined and the
+              set of items that's generated; then, we start this set all over
+              again. Now, let's look at some code to see the implementation of
+              these sequences using generators. Here's a generic generator
+              function that we can use to alternate between values:
+            </p>
+            <div class="snippet6">
+              <!-- prettier-ignore -->
+              <pre><code class="code-block javascript"></code></pre>
+            </div>
+            <p>
+              This is the first time we've declared a generator function that
+              accepts arguments. In fact, we're using the spread operator to
+              iterate over arguments passed to the function. Unlike arguments,
+              the <em>seq</em> argument that we've created using the spread
+              operator is a real array. As we iterate over this array, we yield
+              each item from the generator. This may not seem all that useful at
+              first glance, but it's the <em>while</em> loop that adds the real
+              power here. Since the <em>while</em> loop will never exit, the
+              <em>for</em> loop will simply repeat itself. That is, it'll
+              alternate. This negates the need for explicit bookkeeping code
+              (Have we reached the end of the sequence? How do we reset the
+              counter and move back to the beginning? And so on). Let's see how
+              this generator function works:
+            </p>
+            <div class="snippet7">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              Cool. So the <em>alternator</em> will continue to generate
+              <em>true</em>/<em>false</em> values as long as we continue to ask
+              for them. The main benefit here is that we don't need to know
+              about the next value, <em>alternator</em> takes care of this for
+              us. Let's look at this generator function with a different
+              sequence to iterate over:
+            </p>
+            <div class="snippet8">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              As we can see, the <em>alternate()</em> function comes in handy
+              for alternating between any arguments passed to it.
+            </p>
+          </div>
+
+          <div id="deferring-to-other-generators">
+            <h5>Deferring to other generators</h5>
+            <p>
+              We've seen how the <em>yield</em> statement is able to pause the
+              execution context of a <em>generator</em> function, and yield a
+              value back to the calling context. There's a variation on the
+              <em>yield</em> statement that allows us to defer to other
+              <em>generator</em> functions. Another technique involves creating
+              a mesh of generators by interweaving several generator sources
+              together. In this section, we'll explore both of these ideas.
+            </p>
+          </div>
+
+          <div id="selecting-a-strategy">
+            <h5>Selecting a strategy</h5>
+            <p>
+              Deferring to other generators gives our functions the ability to
+              decide at run-time, to hand off control from one generator to
+              another. In other words, it allows the selection of a more
+              appropriate generator function based on a strategy. Let's assume
+              that we need three specialized generators that we would like to
+              use throughout our application. Each one should work in their own
+              unique way. Perhaps, they're tailored for specific types of
+              inputs. However, these generators simply make assumptions about
+              the input that they're given. It may not be the best tool for the
+              job, and so, we have to figure out which of these generators to
+              use. What we want to avoid is having to implement this strategy
+              selection code all over the place. It would be nice if we were
+              able to encapsulate all of this into a general purpose generator
+              that captures common cases throughout our code. Let's say that we
+              have the following generator functions, and they're equally used
+              throughout our application:
+            </p>
+            <div class="snippet9">
+              <!-- prettier-ignore -->
+              <pre><code class="code-block javascript"></code></pre>
+            </div>
+            <p>
+              These are small and concise functions, and they are easy to use
+              wherever we need them. The trouble is that each of these functions
+              make assumptions about the collection that's passed in. Is it an
+              array of objects, each with a specific property? Is it an array of
+              strings? Is it an object instead of an array? Since these
+              generator functions are commonly used throughout our code for a
+              similar purpose, we can implement a more generic iterator, who's
+              job is to determine the best generator function to use, and then
+              to defer to it. Let's see what this function looks like:
+            </p>
+            <div class="snippet10">
+              <!-- prettier-ignore -->
+              <pre><code class="code-block javascript"></code></pre>
+            </div>
+            <p>
+              Think of the <em>iterateNames()</em> function as a simple proxy
+              for any one of the other three generators. It examines the input
+              and makes a selection based on the collection. We could have
+              implemented one large generator function, but that would preclude
+              us from use cases where we want to use the smaller generators
+              directly. What if we want to use them to compose new
+              functionality, or if another composite generator wants to use it?
+              It's always a good idea to keep generator functions small and
+              focused. The <em>yield*</em> syntax allows us to handoff control
+              to a more suitable generator. Now, let's see how this general
+              purpose generator function is put to use by deferring to
+              generators that are best equipped to handle the data:
+            </p>
+            <div class="snippet11">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+          </div>
+
+          <div id="interweaving-generators">
+            <h5>Interweaving generators</h5>
+            <p>
+              When a generator defers to another generator, control isn't handed
+              back to the first generator until the second generator is
+              completely finished. In the preceding example, our generator
+              simply looked for a better generator to carry out the work.
+              However, there will be other times when we'll have two or more
+              data sources that we want to use together. So, instead of handing
+              off control to one generator, then to another and so on, we would
+              alternate between the various sources, taking turns consuming
+              data.
+            </p>
+            <p>
+              The idea is to round-robin the data sources, rather than to empty
+              one source, then another, and so on. A generator like this is
+              handy when there isn't a single large collection for us to work
+              with, but instead, two or more collections. Using this generator
+              technique, we can actually treat multiple data sources as though
+              they were one big source, but without having to allocate the
+              memory for a large structure. Let's look at the following code
+              example:
+            </p>
+            <div class="snippet12">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+          </div>
+
+          <div id="passing-data-to-generators">
+            <h5>Passing data to generators</h5>
+            <p>
+              The <em>yield</em> statement doesn't just yield control back to
+              the caller, it also returns a value. This value is passed to the
+              generator function through the <em>next()</em> method. This is how
+              we pass data into generators after they've been created. In this
+              section, we'll address the bidirectional aspect of generators, and
+              how creating feedback loops can produce some lean code.
+            </p>
+          </div>
+
+          <div id="reusing-generators">
+            <h5>Reusing generators</h5>
+            <p>
+              Some generators are general purpose and used frequently throughout
+              our code. This being the case, does it make sense to constantly
+              create and destroy these generator instances? Or can we reuse
+              them? For instance, consider a sequence that's mainly dependent on
+              initial conditions. Let's say we want to generate a sequence of
+              even numbers. We would start at two, and as we iterate over this
+              generator, the value would be incremented. The next time we want
+              to iterate over even numbers, we would have to create a new
+              generator.
+            </p>
+            <p>
+              This is kind of wasteful, since all we're doing is resetting a
+              counter. What if we took a different approach, one that would
+              allow us to keep on using the same generator instance for these
+              types of sequences? The <em>next()</em> method of generators is a
+              possible implementation path for this capability. We could pass it
+              a value, which would then reset our counter. So instead of having
+              to create a new generator instance every time we need to iterate
+              over even numbers, we can simply call <em>next()</em> with a value
+              that resets the initial conditions of our generator.
+            </p>
+            <p>
+              The <em>yield</em> keyword actually returns a value—the argument
+              that's passed to <em>next()</em>. Most of the time, this is
+              <em>undefined</em>, such as when the generator is iterated over in
+              a <em>for..of</em> loop. However, this is how we're able to pass
+              arguments to the generator after it starts running. This is not
+              the same thing as passing arguments to the generator function,
+              which comes in handy for doing the initial configuration of the
+              generator. Values passed to <em>next()</em> are how we talk to the
+              generator when we need to change something for the next value
+              that's to be generated.
+            </p>
+            <p>
+              Let's take a look at how we can use the <em>next()</em> method to
+              create a reusable even number sequence generator:
+            </p>
+            <div class="snippet13">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              <em>
+                In case you're wondering why we're not using a for..of loop in
+                the favor of a while loop, it's because you use a for..of loop
+                to iterate over a generator. When you do so, the generator gets
+                marked as done as soon as the loop exits. Hence, it would no
+                longer be usable.
+              </em>
+            </p>
+          </div>
+
+          <div id="lightweight-map-reduce">
+            <h5>Lightweight map/reduce</h5>
+            <p>
+              Something else we can do with the <em>next()</em> method is map
+              one value to another. For example, let's say we had a collection
+              containing seven items. To map these items, we would iterate over
+              the collection, passing each item to <em>next()</em>. As we saw in
+              the preceding section, this method can reset the state of a
+              generator, but it can also be used to supply a stream of input
+              data, just as it supplies a stream of output data.
+            </p>
+            <p>
+              Let's see if we can write some code that does this—map collection
+              items by feeding them into a generator through <em>next()</em>:
+            </p>
+            <div class="snippet14">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              As we can see, this is indeed possible. We're able to perform a
+              lightweight map/reduce job using this approach. The mapper
+              generator has the <em>iteratee</em> function that's applied to
+              every item in the collection. As we iterate over the array, we're
+              able to feed items into the generator by passing them to the
+              <em>next()</em> method as an argument.
+            </p>
+            <p>
+              But, there's something about the previous method that just doesn't
+              feel optimal—having to bootstrap the generator like this, and
+              explicitly calling <em>next()</em> for every iteration feels
+              clunky. In fact, could we not apply the <em>iteratee</em> function
+              directly, instead of calling <em>next()</em>? It's these things
+              that we need to be on the lookout while using generators; in
+              particular, when passing data to generators. Just because we're
+              able to, doesn't mean that it's a good idea.
+            </p>
+            <p>
+              Mapping and reducing would probably feel more natural, if we were
+              to simply iterate over the generator just as we do with all other
+              generators. We still want the lightweight mapping that generators
+              give us, to avoid the memory allocations. Let's try a different
+              approach here—one that doesn't require the <em>next()</em> method:
+            </p>
+            <div class="snippet15">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              This looks like an improvement. There's less code, and the flow of
+              the generator is easy to grok. The difference is that we pass our
+              array and <em>iteratee</em> function to the generator up front.
+              Then, as we iterate over the generator, each item gets mapped
+              lazily. The code that reduces this array into an object is simpler
+              to read too.
+            </p>
+            <p>
+              The <em>genMap()</em> function that we've just implemented is
+              generic, which is advantageous to us. In real applications,
+              mappings are going to be more complex than an uppercase
+              transformation. More likely, there will be multiple levels of
+              mappings. That is, we map the collection, then map it N more times
+              before reducing it. If we've done a good job designing our code,
+              then we'll want to compose generators out of smaller iterated
+              functions.
+            </p>
+            <p>
+              But how can we keep this generic and lazy? The idea is to have
+              several generators, each serving as the input to the next. This
+              means that as our reducer code iterates over these generators,
+              only one item makes it's way through the various layers of
+              mappings, to the reduction code. Let's take a stab at implementing
+              this:
+            </p>
+            <div class="snippet16">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+          </div>
+
+          <div id="coroutines">
+            <h5>Coroutines</h5>
+            <p>
+              Coroutines are a concurrency technique that allow for cooperative
+              multitasking. What this means is that if one part of our
+              application needs to perform part of a task, it can do so, and
+              then hand control off to another part of the application. Think
+              about a subroutine, or in more recent times, a function. These
+              subroutines often rely on other subroutines. However, they don't
+              just run in succession, they cooperate with one another.
+            </p>
+            <p>
+              In JavaScript, there's no intrinsic coroutine mechanism.
+              Generators aren't coroutines, but they have similar properties.
+              For example, generators can pause the execution of a function,
+              yielding control to another context, then regain control and
+              resume. This gets us partway there, but generators are for
+              generating values, which isn't necessarily what we're after with
+              coroutines. In this section, we'll look at some techniques for
+              implementing coroutines in JavaScript using generators.
+            </p>
+          </div>
+
+          <div id="creating-coroutine-functions">
+            <h5>Creating coroutine functions</h5>
+            <p>
+              Generators give us most of what we need to implement
+              <em>coroutine</em> functions in JavaScript; they can pause and
+              resume executing. We just need to implement some minor
+              abstractions around generators so that the functions that we're
+              working with actually feel like calling
+              <em>coroutine</em> functions, instead of iterating over
+              generators.
+            </p>
+            <p>
+              The idea is that invoking the <em>coroutine</em> function moves
+              from one <em>yield</em> statement to the next. And we can supply
+              input to the coroutine by passing an argument, which is then
+              returned by the <em>yield</em> statement. This is a lot to
+              remember, so let's generalize these coroutine concepts in a
+              function wrapper:
+            </p>
+            <div class="snippet17">
+              <!-- prettier-ignore -->
+              <pre><code class="code-block javascript"></code></pre>
+            </div>
+            <p>
+              Pretty simple—five lines of code, but it's also powerful. The
+              function returned by Harold's wrapper simply advances the
+              generator to the next <em>yield</em> statement, supplying the
+              argument to <em>next()</em>, if one was provided. It's one thing
+              to make claims of utility, but let's actually use this thing to
+              make a <em>coroutine</em> function:
+            </p>
+            <div class="snippet18">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              When there are a series of steps involved with fulfilling some
+              task, we typically require bookkeeping code, temporary values, and
+              so on. These aren't necessary with coroutines because the function
+              simply pauses, leaving any local state intact. In other words,
+              there's no need to intertwine concurrency logic with our
+              application logic when coroutines do a decent job of hiding these
+              details for us.
+            </p>
+          </div>
+
+          <div id="handling-dom-events">
+            <h5>Handling DOM events</h5>
+            <p>
+              Somewhere else where we can use coroutines is with the DOM as
+              event handlers. This works by adding the same
+              <em>coroutine()</em> function as an event listener to several
+              elements. Let's recall that each call to these coroutine functions
+              talks to a single generator. This means that our coroutines that
+              are setup to handle DOM events get passed in as a stream. It's
+              almost like we're iterating over these events.
+            </p>
+            <p>
+              Since these <em>coroutine</em> functions use the same generator,
+              it's easy for elements to talk to one another using this
+              technique. The typical approach to DOM events involves callback
+              functions that talk to some sort of central source that's shared
+              among elements and maintains state. With coroutines, the state of
+              element communications is implicit inside our function code. Let's
+              use our coroutine wrapper in the context of DOM event handlers:
+            </p>
+            <div class="snippet19">
+              <pre><code class="code-block javascript"></code><div class="position-absolute" style="top: 0; right: 0;"><button class="btn btn-secondary shadow-none" coroutine>Co1</button><button class="btn btn-secondary shadow-none" coroutine>Co2</button></div></pre>
+            </div>
+          </div>
+
+          <div id="handling-promised-values">
+            <h5>Handling promised values</h5>
+            <p>
+              In the preceding section, we saw how the
+              <em>coroutine()</em> function can be used to process DOM events.
+              Instead of haphazardly adding callback functions that respond to
+              DOM events, we use the same <em>coroutine()</em> function, which
+              treats events as a stream of data. It's easier for DOM event
+              handlers to cooperate with one another since they share the same
+              generator context.
+            </p>
+            <p>
+              We can apply this same principle to <em>then()</em> callbacks of
+              promises, which works in a similar way to the DOM coroutine
+              approach. Instead of passing a regular function, we pass a
+              coroutine to <em>then()</em>. When the promise resolves, the
+              <em>coroutine</em> advances to the next <em>yield</em> statement
+              along with a resolved value. Let's take a look at the following
+              code:
+            </p>
+            <div class="snippet20">
+              <pre><code class="code-block javascript"></code><button class="btn btn-secondary shadow-none run-code-button">Run</button></pre>
+            </div>
+            <p>
+              This is very useful because it provides something that static
+              promise methods do not. The <em>Promise.all()</em> method forces
+              us to wait for all the promises to resolve before resolving the
+              returned promise. However, in the case where the resolved promise
+              values aren't dependent on one another, we can simply iterate over
+              them, responding as they resolve in any order.
+            </p>
+            <p>
+              We can achieve something similar by attaching plain functions to
+              <em>then()</em> as callbacks, but then, we wouldn't have a shared
+              context for promise values as they resolve. Another tactic we can
+              adopt by combining promises with coroutines is to declare a
+              handful of coroutines that respond differently, depending on the
+              type of data they're responding to. These coroutines would then
+              live on throughout the entire duration of the application, being
+              passed to promises as they get created.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./snippets.js"></script>
+    <script src="../../js/main.js"></script>
+  </body>
+</html>
